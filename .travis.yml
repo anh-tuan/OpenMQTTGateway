@@ -34,9 +34,8 @@ matrix:
       install:
         - pip install -U platformio
         - platformio update
-        - rm /home/travis/build/1technophile/OpenMQTTGateway/main/User_config.h
-        - cp /home/travis/build/1technophile/OpenMQTTGateway/test/Test_config.h /home/travis/build/1technophile/OpenMQTTGateway/main//User_config.h
       script: 
+        - sed -i 's/version_tag/'$TRAVIS_TAG'/g' main/User_config.h
         - platformio run
         - bash scripts/prepare_deploy.sh
       before_deploy: ls -a
@@ -59,6 +58,7 @@ matrix:
       install:
         - npm install -g vuepress
       script:
+        - sed -i 's/version_tag/'$TRAVIS_TAG'/g' docs/.vuepress/config.js
         - npm run docs:build
       before_deploy: echo "docs.openmqttgateway.com" >> docs/.vuepress/dist/CNAME
       deploy:
